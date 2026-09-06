@@ -1,0 +1,1 @@
+Subtotal: 87400, Discount: 8980, Final Amount: 78420
