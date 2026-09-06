@@ -1,0 +1,2 @@
+101,Gaming Laptop,Electronics,85000,8
+103,Mouse,Electronics,800,30
