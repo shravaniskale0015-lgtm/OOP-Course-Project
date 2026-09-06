@@ -1,20 +1,39 @@
 #ifndef PRODUCT_MANAGER_H
 #define PRODUCT_MANAGER_H
 
-#include <vector>
 #include "Product.h"
+#include <vector>
+#include <string>
+
+using namespace std;
 
 class ProductManager
 {
 private:
-    std::vector<Product> products;
+    vector<Product> products;
 
 public:
-    void addProduct(const Product& product);
-    void displayProducts() const;
+    // Add product
+    bool addProduct(const Product& product);
+
+    // Search product
     Product* searchProduct(int productId);
+    Product* searchProduct(const string& name);
+
+    // Update product
     bool updateProduct(int productId, const Product& updatedProduct);
+
+    // Delete product
     bool deleteProduct(int productId);
+
+    // Display all products
+    void displayProducts() const;
+
+    // Check whether product exists
+    bool productExists(int productId) const;
+
+    // Number of products
+    int getProductCount() const;
 };
 
 #endif
