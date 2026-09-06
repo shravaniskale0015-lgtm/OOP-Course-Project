@@ -1,7 +1,6 @@
 #include "Product.h"
-#include <iostream>
-#include <iomanip>
 #include <stdexcept>
+#include <iomanip>
 
 using namespace std;
 
@@ -16,25 +15,38 @@ Product::Product()
 }
 
 // Parameterized constructor
-Product::Product(int id, string name, string category,
-                 double price, int stockQuantity)
+Product::Product(int productId,
+                 const string& name,
+                 const string& category,
+                 double price,
+                 int stockQuantity)
 {
-    if (id <= 0)
+    if (productId <= 0)
+    {
         throw invalid_argument("Product ID must be positive.");
+    }
 
     if (name.empty())
+    {
         throw invalid_argument("Product name cannot be empty.");
+    }
 
     if (category.empty())
+    {
         throw invalid_argument("Product category cannot be empty.");
+    }
 
     if (price < 0)
+    {
         throw invalid_argument("Product price cannot be negative.");
+    }
 
     if (stockQuantity < 0)
+    {
         throw invalid_argument("Stock quantity cannot be negative.");
+    }
 
-    productId = id;
+    this->productId = productId;
     this->name = name;
     this->category = category;
     this->price = price;
@@ -42,6 +54,7 @@ Product::Product(int id, string name, string category,
 }
 
 // Getters
+
 int Product::getProductId() const
 {
     return productId;
@@ -68,18 +81,23 @@ int Product::getStockQuantity() const
 }
 
 // Setters
-void Product::setName(string name)
+
+void Product::setName(const string& name)
 {
     if (name.empty())
+    {
         throw invalid_argument("Product name cannot be empty.");
+    }
 
     this->name = name;
 }
 
-void Product::setCategory(string category)
+void Product::setCategory(const string& category)
 {
     if (category.empty())
+    {
         throw invalid_argument("Product category cannot be empty.");
+    }
 
     this->category = category;
 }
@@ -87,7 +105,9 @@ void Product::setCategory(string category)
 void Product::setPrice(double price)
 {
     if (price < 0)
+    {
         throw invalid_argument("Product price cannot be negative.");
+    }
 
     this->price = price;
 }
@@ -95,28 +115,22 @@ void Product::setPrice(double price)
 void Product::setStockQuantity(int stockQuantity)
 {
     if (stockQuantity < 0)
+    {
         throw invalid_argument("Stock quantity cannot be negative.");
+    }
 
     this->stockQuantity = stockQuantity;
 }
 
-// Update stock
-void Product::updateStock(int quantity)
-{
-    if (stockQuantity + quantity < 0)
-        throw invalid_argument("Stock quantity cannot become negative.");
+// Display
 
-    stockQuantity += quantity;
-}
-
-// Display product
 void Product::display() const
 {
     cout << left
          << setw(8) << productId
-         << setw(20) << name
-         << setw(15) << category
+         << setw(25) << name
+         << setw(20) << category
          << setw(12) << fixed << setprecision(2) << price
-         << setw(10) << stockQuantity
+         << setw(8) << stockQuantity
          << endl;
 }

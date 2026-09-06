@@ -1,38 +1,45 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
+#include <iostream>
 #include <string>
+
+using namespace std;
 
 class Product
 {
 private:
     int productId;
-    std::string name;
-    std::string category;
+    string name;
+    string category;
     double price;
     int stockQuantity;
 
 public:
-    // Constructors
+    // Default constructor
     Product();
-    Product(int id, std::string name, std::string category,
-            double price, int stockQuantity);
+
+    // Parameterized constructor
+    Product(int productId,
+            const string& name,
+            const string& category,
+            double price,
+            int stockQuantity);
 
     // Getters
     int getProductId() const;
-    std::string getName() const;
-    std::string getCategory() const;
+    string getName() const;
+    string getCategory() const;
     double getPrice() const;
     int getStockQuantity() const;
 
     // Setters
-    void setName(std::string name);
-    void setCategory(std::string category);
+    void setName(const string& name);
+    void setCategory(const string& category);
     void setPrice(double price);
     void setStockQuantity(int stockQuantity);
 
-    // Other member functions
-    void updateStock(int quantity);
+    // Display product information
     void display() const;
 };
 

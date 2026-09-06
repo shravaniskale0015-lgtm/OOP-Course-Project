@@ -1,37 +1,25 @@
 #include "ProductManager.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
-// Add a product
-void ProductManager::addProduct(const Product& product)
+// Add Product
+bool ProductManager::addProduct(const Product& product)
 {
+    if (productExists(product.getProductId()))
+    {
+        return false;
+    }
+
     products.push_back(product);
+    return true;
 }
 
-// Display all products
-void ProductManager::displayProducts() const
-{
-    if (products.empty())
-    {
-        cout << "No products available.\n";
-        return;
-    }
-
-    cout << "\nProduct List:\n";
-    cout << "ID\tName\t\tCategory\tPrice\t\tStock\n";
-    cout << "------------------------------------------------------------\n";
-
-    for (const Product& product : products)
-    {
-        product.display();
-    }
-}
-
-// Search product by ID
+// Search by ID
 Product* ProductManager::searchProduct(int productId)
 {
-    for (Product& product : products)
+    for (auto& product : products)
     {
         if (product.getProductId() == productId)
         {
@@ -42,26 +30,41 @@ Product* ProductManager::searchProduct(int productId)
     return nullptr;
 }
 
-// Update product
+// Search by name
+Product* ProductManager::searchProduct(const string& name)
+{
+    for (auto& product : products)
+    {
+        if (product.getName() == name)
+        {
+            return &product;
+        }
+    }
+
+    return nullptr;
+}
+
+// Update Product
 bool ProductManager::updateProduct(int productId,
                                     const Product& updatedProduct)
 {
-    Product* product = searchProduct(productId);
-
-    if (product == nullptr)
+    for (auto& product : products)
     {
-        return false;
+        if (product.getProductId() == productId)
+        {
+            product.setName(updatedProduct.getName());
+            product.setCategory(updatedProduct.getCategory());
+            product.setPrice(updatedProduct.getPrice());
+            product.setStockQuantity(updatedProduct.getStockQuantity());
+
+            return true;
+        }
     }
 
-    product->setName(updatedProduct.getName());
-    product->setCategory(updatedProduct.getCategory());
-    product->setPrice(updatedProduct.getPrice());
-    product->setStockQuantity(updatedProduct.getStockQuantity());
-
-    return true;
+    return false;
 }
 
-// Delete product
+// Delete Product
 bool ProductManager::deleteProduct(int productId)
 {
     for (auto it = products.begin(); it != products.end(); ++it)
@@ -74,4 +77,51 @@ bool ProductManager::deleteProduct(int productId)
     }
 
     return false;
+}
+
+// Display Products
+void ProductManager::displayProducts() const
+{
+    if (products.empty())
+    {
+        cout << "No products available.\n";
+        return;
+    }
+
+    cout << "\nProduct List:\n";
+
+    cout << left
+         << setw(8) << "ID"
+         << setw(25) << "Name"
+         << setw(20) << "Category"
+         << setw(12) << "Price"
+         << setw(8) << "Stock"
+         << endl;
+
+    cout << string(73, '-') << endl;
+
+    for (const auto& product : products)
+    {
+        product.display();
+    }
+}
+
+// Check Product Exists
+bool ProductManager::productExists(int productId) const
+{
+    for (const auto& product : products)
+    {
+        if (product.getProductId() == productId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// Get Product Count
+int ProductManager::getProductCount() const
+{
+    return static_cast<int>(products.size());
 }
